@@ -32,7 +32,7 @@ VIDEOS
 
 This displays all the movies that currently exists in the database. When you click
 a video, you would gett all the details about it.
-If the title of the video is in green, this indicates that there is a link available to view the video
+If the title of the video is in green, this indicates that there is a link available to view the video. 
 You may click on a video, which would open another panel showing the details of
 that specific video. You may either: 
 Save the current photo being displayed
