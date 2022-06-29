@@ -35,21 +35,43 @@ namespace videoApp
             this.allContentPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.panelHome = new System.Windows.Forms.Panel();
             this.specRecordPanel = new System.Windows.Forms.Panel();
+            this.specPicHolder = new System.Windows.Forms.Panel();
+            this.rightSpecButton = new System.Windows.Forms.Button();
+            this.leftSpecButton = new System.Windows.Forms.Button();
+            this.specPhoto = new System.Windows.Forms.PictureBox();
+            this.saveSpecImgButton = new System.Windows.Forms.Button();
             this.deleteSpecButton = new System.Windows.Forms.Button();
             this.deleteSpecPanel = new System.Windows.Forms.Panel();
             this.cancelDeleteSpec = new System.Windows.Forms.Button();
             this.confirmDeleteSpec = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.specPhoto = new System.Windows.Forms.PictureBox();
             this.specLabel = new System.Windows.Forms.Label();
             this.specRecordHolder = new System.Windows.Forms.FlowLayoutPanel();
+            this.singleVidPanel = new System.Windows.Forms.Panel();
+            this.leftSingle = new System.Windows.Forms.Button();
+            this.singleVidGenreFlow = new System.Windows.Forms.FlowLayoutPanel();
+            this.singleVidGenre = new System.Windows.Forms.LinkLabel();
+            this.rightSingle = new System.Windows.Forms.Button();
+            this.saveVidImgButton = new System.Windows.Forms.Button();
+            this.viewVidButton = new System.Windows.Forms.Button();
+            this.conformDeletePanel = new System.Windows.Forms.Panel();
+            this.cancelDelete = new System.Windows.Forms.Button();
+            this.confirmDelete = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.deleteVidButton = new System.Windows.Forms.Button();
+            this.editVidButton = new System.Windows.Forms.Button();
+            this.singleVidActorFlow = new System.Windows.Forms.FlowLayoutPanel();
+            this.singleVidActor = new System.Windows.Forms.LinkLabel();
+            this.singleVidEmail = new System.Windows.Forms.LinkLabel();
+            this.singleVidName = new System.Windows.Forms.Label();
+            this.singleVidPic = new System.Windows.Forms.PictureBox();
             this.newVidPanel = new System.Windows.Forms.Panel();
+            this.suggestedPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.newVidPicsHolder = new System.Windows.Forms.FlowLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.newVidLink = new System.Windows.Forms.TextBox();
             this.newVidSave = new System.Windows.Forms.Button();
-            this.suggestedPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonOpenImage = new System.Windows.Forms.Button();
-            this.newVidImage = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -58,21 +80,6 @@ namespace videoApp
             this.newVidActor = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.newVidName = new System.Windows.Forms.TextBox();
-            this.singleVidPanel = new System.Windows.Forms.Panel();
-            this.viewVidButton = new System.Windows.Forms.Button();
-            this.conformDeletePanel = new System.Windows.Forms.Panel();
-            this.cancelDelete = new System.Windows.Forms.Button();
-            this.confirmDelete = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.deleteVidButton = new System.Windows.Forms.Button();
-            this.editVidButton = new System.Windows.Forms.Button();
-            this.singleVidGenreFlow = new System.Windows.Forms.FlowLayoutPanel();
-            this.singleVidGenre = new System.Windows.Forms.LinkLabel();
-            this.singleVidActorFlow = new System.Windows.Forms.FlowLayoutPanel();
-            this.singleVidActor = new System.Windows.Forms.LinkLabel();
-            this.singleVidEmail = new System.Windows.Forms.LinkLabel();
-            this.singleVidName = new System.Windows.Forms.Label();
-            this.singleVidPic = new System.Windows.Forms.PictureBox();
             this.searchBarPanel = new System.Windows.Forms.Panel();
             this.searchBarTextBox = new System.Windows.Forms.MaskedTextBox();
             this.mainButtonsHolder = new System.Windows.Forms.Panel();
@@ -82,22 +89,20 @@ namespace videoApp
             this.buttonGenre = new System.Windows.Forms.Button();
             this.buttonActors = new System.Windows.Forms.Button();
             this.buttonVideos = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.browserPanel = new System.Windows.Forms.Panel();
             this.leaveBrowserButton = new System.Windows.Forms.Button();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.panelLogIn.SuspendLayout();
             this.panelHome.SuspendLayout();
             this.specRecordPanel.SuspendLayout();
-            this.deleteSpecPanel.SuspendLayout();
+            this.specPicHolder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.specPhoto)).BeginInit();
-            this.newVidPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.newVidImage)).BeginInit();
+            this.deleteSpecPanel.SuspendLayout();
             this.singleVidPanel.SuspendLayout();
-            this.conformDeletePanel.SuspendLayout();
             this.singleVidGenreFlow.SuspendLayout();
+            this.conformDeletePanel.SuspendLayout();
             this.singleVidActorFlow.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.singleVidPic)).BeginInit();
+            this.newVidPanel.SuspendLayout();
             this.searchBarPanel.SuspendLayout();
             this.mainButtonsHolder.SuspendLayout();
             this.browserPanel.SuspendLayout();
@@ -149,12 +154,13 @@ namespace videoApp
             this.allContentPanel.Name = "allContentPanel";
             this.allContentPanel.Size = new System.Drawing.Size(792, 632);
             this.allContentPanel.TabIndex = 4;
+            this.allContentPanel.Visible = false;
             // 
             // panelHome
             // 
-            this.panelHome.Controls.Add(this.specRecordPanel);
             this.panelHome.Controls.Add(this.newVidPanel);
             this.panelHome.Controls.Add(this.allContentPanel);
+            this.panelHome.Controls.Add(this.specRecordPanel);
             this.panelHome.Controls.Add(this.singleVidPanel);
             this.panelHome.Controls.Add(this.searchBarPanel);
             this.panelHome.Controls.Add(this.mainButtonsHolder);
@@ -170,9 +176,10 @@ namespace videoApp
             this.specRecordPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.specRecordPanel.Controls.Add(this.specPicHolder);
+            this.specRecordPanel.Controls.Add(this.saveSpecImgButton);
             this.specRecordPanel.Controls.Add(this.deleteSpecButton);
             this.specRecordPanel.Controls.Add(this.deleteSpecPanel);
-            this.specRecordPanel.Controls.Add(this.specPhoto);
             this.specRecordPanel.Controls.Add(this.specLabel);
             this.specRecordPanel.Controls.Add(this.specRecordHolder);
             this.specRecordPanel.Location = new System.Drawing.Point(210, 80);
@@ -181,15 +188,81 @@ namespace videoApp
             this.specRecordPanel.TabIndex = 12;
             this.specRecordPanel.Visible = false;
             // 
+            // specPicHolder
+            // 
+            this.specPicHolder.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.specPicHolder.Controls.Add(this.rightSpecButton);
+            this.specPicHolder.Controls.Add(this.leftSpecButton);
+            this.specPicHolder.Controls.Add(this.specPhoto);
+            this.specPicHolder.Location = new System.Drawing.Point(93, 5);
+            this.specPicHolder.Name = "specPicHolder";
+            this.specPicHolder.Size = new System.Drawing.Size(118, 118);
+            this.specPicHolder.TabIndex = 17;
+            // 
+            // rightSpecButton
+            // 
+            this.rightSpecButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.rightSpecButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rightSpecButton.BackgroundImage")));
+            this.rightSpecButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.rightSpecButton.FlatAppearance.BorderSize = 0;
+            this.rightSpecButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rightSpecButton.Location = new System.Drawing.Point(83, 40);
+            this.rightSpecButton.Name = "rightSpecButton";
+            this.rightSpecButton.Size = new System.Drawing.Size(30, 30);
+            this.rightSpecButton.TabIndex = 18;
+            this.rightSpecButton.UseVisualStyleBackColor = true;
+            this.rightSpecButton.Visible = false;
+            this.rightSpecButton.Click += new System.EventHandler(this.directSpecButton_Click);
+            // 
+            // leftSpecButton
+            // 
+            this.leftSpecButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.leftSpecButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("leftSpecButton.BackgroundImage")));
+            this.leftSpecButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.leftSpecButton.FlatAppearance.BorderSize = 0;
+            this.leftSpecButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.leftSpecButton.Location = new System.Drawing.Point(0, 40);
+            this.leftSpecButton.Name = "leftSpecButton";
+            this.leftSpecButton.Size = new System.Drawing.Size(30, 30);
+            this.leftSpecButton.TabIndex = 17;
+            this.leftSpecButton.UseVisualStyleBackColor = true;
+            this.leftSpecButton.Visible = false;
+            this.leftSpecButton.Click += new System.EventHandler(this.directSpecButton_Click);
+            // 
+            // specPhoto
+            // 
+            this.specPhoto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.specPhoto.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.specPhoto.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.specPhoto.Location = new System.Drawing.Point(0, 0);
+            this.specPhoto.Name = "specPhoto";
+            this.specPhoto.Size = new System.Drawing.Size(118, 118);
+            this.specPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.specPhoto.TabIndex = 3;
+            this.specPhoto.TabStop = false;
+            this.specPhoto.Click += new System.EventHandler(this.specPhoto_Click);
+            // 
+            // saveSpecImgButton
+            // 
+            this.saveSpecImgButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("saveSpecImgButton.BackgroundImage")));
+            this.saveSpecImgButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.saveSpecImgButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.saveSpecImgButton.Location = new System.Drawing.Point(0, 5);
+            this.saveSpecImgButton.Name = "saveSpecImgButton";
+            this.saveSpecImgButton.Size = new System.Drawing.Size(35, 35);
+            this.saveSpecImgButton.TabIndex = 16;
+            this.saveSpecImgButton.UseVisualStyleBackColor = true;
+            this.saveSpecImgButton.Click += new System.EventHandler(this.saveSpecImgButton_Click);
+            // 
             // deleteSpecButton
             // 
             this.deleteSpecButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteSpecButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("deleteSpecButton.BackgroundImage")));
             this.deleteSpecButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.deleteSpecButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deleteSpecButton.Location = new System.Drawing.Point(736, 3);
+            this.deleteSpecButton.Location = new System.Drawing.Point(753, 0);
             this.deleteSpecButton.Name = "deleteSpecButton";
-            this.deleteSpecButton.Size = new System.Drawing.Size(50, 50);
+            this.deleteSpecButton.Size = new System.Drawing.Size(35, 35);
             this.deleteSpecButton.TabIndex = 15;
             this.deleteSpecButton.UseVisualStyleBackColor = true;
             this.deleteSpecButton.Visible = false;
@@ -202,7 +275,7 @@ namespace videoApp
             this.deleteSpecPanel.Controls.Add(this.cancelDeleteSpec);
             this.deleteSpecPanel.Controls.Add(this.confirmDeleteSpec);
             this.deleteSpecPanel.Controls.Add(this.label6);
-            this.deleteSpecPanel.Location = new System.Drawing.Point(186, 31);
+            this.deleteSpecPanel.Location = new System.Drawing.Point(210, 106);
             this.deleteSpecPanel.Name = "deleteSpecPanel";
             this.deleteSpecPanel.Size = new System.Drawing.Size(361, 297);
             this.deleteSpecPanel.TabIndex = 14;
@@ -244,26 +317,16 @@ namespace videoApp
             this.label6.TabIndex = 0;
             this.label6.Text = "Are you sure?";
             // 
-            // specPhoto
-            // 
-            this.specPhoto.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.specPhoto.Location = new System.Drawing.Point(124, 5);
-            this.specPhoto.Name = "specPhoto";
-            this.specPhoto.Size = new System.Drawing.Size(121, 118);
-            this.specPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.specPhoto.TabIndex = 3;
-            this.specPhoto.TabStop = false;
-            this.specPhoto.Click += new System.EventHandler(this.specPhoto_Click);
-            // 
             // specLabel
             // 
             this.specLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.specLabel.AutoSize = true;
             this.specLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.specLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.specLabel.ForeColor = System.Drawing.Color.White;
             this.specLabel.Location = new System.Drawing.Point(247, 57);
             this.specLabel.Name = "specLabel";
-            this.specLabel.Size = new System.Drawing.Size(533, 44);
+            this.specLabel.Size = new System.Drawing.Size(264, 46);
             this.specLabel.TabIndex = 1;
             this.specLabel.Text = "Spec Record";
             this.specLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -279,17 +342,252 @@ namespace videoApp
             this.specRecordHolder.Size = new System.Drawing.Size(786, 497);
             this.specRecordHolder.TabIndex = 2;
             // 
+            // singleVidPanel
+            // 
+            this.singleVidPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.singleVidPanel.Controls.Add(this.leftSingle);
+            this.singleVidPanel.Controls.Add(this.singleVidGenreFlow);
+            this.singleVidPanel.Controls.Add(this.rightSingle);
+            this.singleVidPanel.Controls.Add(this.saveVidImgButton);
+            this.singleVidPanel.Controls.Add(this.viewVidButton);
+            this.singleVidPanel.Controls.Add(this.conformDeletePanel);
+            this.singleVidPanel.Controls.Add(this.deleteVidButton);
+            this.singleVidPanel.Controls.Add(this.editVidButton);
+            this.singleVidPanel.Controls.Add(this.singleVidActorFlow);
+            this.singleVidPanel.Controls.Add(this.singleVidEmail);
+            this.singleVidPanel.Controls.Add(this.singleVidName);
+            this.singleVidPanel.Controls.Add(this.singleVidPic);
+            this.singleVidPanel.Location = new System.Drawing.Point(210, 80);
+            this.singleVidPanel.Name = "singleVidPanel";
+            this.singleVidPanel.Size = new System.Drawing.Size(789, 629);
+            this.singleVidPanel.TabIndex = 8;
+            this.singleVidPanel.Visible = false;
+            // 
+            // leftSingle
+            // 
+            this.leftSingle.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.leftSingle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("leftSingle.BackgroundImage")));
+            this.leftSingle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.leftSingle.FlatAppearance.BorderSize = 0;
+            this.leftSingle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.leftSingle.Location = new System.Drawing.Point(3, 194);
+            this.leftSingle.Name = "leftSingle";
+            this.leftSingle.Size = new System.Drawing.Size(35, 35);
+            this.leftSingle.TabIndex = 20;
+            this.leftSingle.UseVisualStyleBackColor = true;
+            this.leftSingle.Click += new System.EventHandler(this.directSingle_Click);
+            // 
+            // singleVidGenreFlow
+            // 
+            this.singleVidGenreFlow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.singleVidGenreFlow.Controls.Add(this.singleVidGenre);
+            this.singleVidGenreFlow.Location = new System.Drawing.Point(12, 530);
+            this.singleVidGenreFlow.Name = "singleVidGenreFlow";
+            this.singleVidGenreFlow.Size = new System.Drawing.Size(778, 46);
+            this.singleVidGenreFlow.TabIndex = 11;
+            // 
+            // singleVidGenre
+            // 
+            this.singleVidGenre.AutoSize = true;
+            this.singleVidGenre.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.singleVidGenre.Location = new System.Drawing.Point(3, 0);
+            this.singleVidGenre.Name = "singleVidGenre";
+            this.singleVidGenre.Size = new System.Drawing.Size(108, 29);
+            this.singleVidGenre.TabIndex = 8;
+            this.singleVidGenre.TabStop = true;
+            this.singleVidGenre.Text = "Genre(s)";
+            this.singleVidGenre.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.singleVidGenre_LinkClicked);
+            // 
+            // rightSingle
+            // 
+            this.rightSingle.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.rightSingle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rightSingle.BackgroundImage")));
+            this.rightSingle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.rightSingle.FlatAppearance.BorderSize = 0;
+            this.rightSingle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rightSingle.Location = new System.Drawing.Point(758, 194);
+            this.rightSingle.Name = "rightSingle";
+            this.rightSingle.Size = new System.Drawing.Size(35, 35);
+            this.rightSingle.TabIndex = 19;
+            this.rightSingle.UseVisualStyleBackColor = true;
+            this.rightSingle.Click += new System.EventHandler(this.directSingle_Click);
+            // 
+            // saveVidImgButton
+            // 
+            this.saveVidImgButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveVidImgButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("saveVidImgButton.BackgroundImage")));
+            this.saveVidImgButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.saveVidImgButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.saveVidImgButton.Location = new System.Drawing.Point(587, 591);
+            this.saveVidImgButton.Name = "saveVidImgButton";
+            this.saveVidImgButton.Size = new System.Drawing.Size(35, 35);
+            this.saveVidImgButton.TabIndex = 15;
+            this.saveVidImgButton.UseVisualStyleBackColor = true;
+            this.saveVidImgButton.Click += new System.EventHandler(this.saveVidImgButton_Click);
+            // 
+            // viewVidButton
+            // 
+            this.viewVidButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.viewVidButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("viewVidButton.BackgroundImage")));
+            this.viewVidButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.viewVidButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.viewVidButton.Location = new System.Drawing.Point(643, 591);
+            this.viewVidButton.Name = "viewVidButton";
+            this.viewVidButton.Size = new System.Drawing.Size(35, 35);
+            this.viewVidButton.TabIndex = 14;
+            this.viewVidButton.UseVisualStyleBackColor = true;
+            this.viewVidButton.Click += new System.EventHandler(this.viewVidButton_Click);
+            // 
+            // conformDeletePanel
+            // 
+            this.conformDeletePanel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.conformDeletePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.conformDeletePanel.Controls.Add(this.cancelDelete);
+            this.conformDeletePanel.Controls.Add(this.confirmDelete);
+            this.conformDeletePanel.Controls.Add(this.label5);
+            this.conformDeletePanel.Location = new System.Drawing.Point(206, 86);
+            this.conformDeletePanel.Name = "conformDeletePanel";
+            this.conformDeletePanel.Size = new System.Drawing.Size(361, 297);
+            this.conformDeletePanel.TabIndex = 13;
+            this.conformDeletePanel.Visible = false;
+            // 
+            // cancelDelete
+            // 
+            this.cancelDelete.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.cancelDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.cancelDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cancelDelete.Location = new System.Drawing.Point(203, 208);
+            this.cancelDelete.Name = "cancelDelete";
+            this.cancelDelete.Size = new System.Drawing.Size(124, 44);
+            this.cancelDelete.TabIndex = 14;
+            this.cancelDelete.Text = "No";
+            this.cancelDelete.UseVisualStyleBackColor = true;
+            this.cancelDelete.Click += new System.EventHandler(this.cancelDelete_Click);
+            // 
+            // confirmDelete
+            // 
+            this.confirmDelete.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.confirmDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.confirmDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.confirmDelete.Location = new System.Drawing.Point(32, 208);
+            this.confirmDelete.Name = "confirmDelete";
+            this.confirmDelete.Size = new System.Drawing.Size(124, 44);
+            this.confirmDelete.TabIndex = 13;
+            this.confirmDelete.Text = "Delete";
+            this.confirmDelete.UseVisualStyleBackColor = true;
+            this.confirmDelete.Click += new System.EventHandler(this.confirmDelete_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(61, 69);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(241, 40);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Are you sure?";
+            // 
+            // deleteVidButton
+            // 
+            this.deleteVidButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteVidButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("deleteVidButton.BackgroundImage")));
+            this.deleteVidButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.deleteVidButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deleteVidButton.Location = new System.Drawing.Point(753, 591);
+            this.deleteVidButton.Name = "deleteVidButton";
+            this.deleteVidButton.Size = new System.Drawing.Size(35, 35);
+            this.deleteVidButton.TabIndex = 12;
+            this.deleteVidButton.UseVisualStyleBackColor = true;
+            this.deleteVidButton.Click += new System.EventHandler(this.deleteVidButton_Click);
+            // 
+            // editVidButton
+            // 
+            this.editVidButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.editVidButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("editVidButton.BackgroundImage")));
+            this.editVidButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.editVidButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editVidButton.Location = new System.Drawing.Point(698, 591);
+            this.editVidButton.Name = "editVidButton";
+            this.editVidButton.Size = new System.Drawing.Size(35, 35);
+            this.editVidButton.TabIndex = 12;
+            this.editVidButton.UseVisualStyleBackColor = true;
+            this.editVidButton.Click += new System.EventHandler(this.editVidButton_Click);
+            // 
+            // singleVidActorFlow
+            // 
+            this.singleVidActorFlow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.singleVidActorFlow.Controls.Add(this.singleVidActor);
+            this.singleVidActorFlow.Location = new System.Drawing.Point(12, 477);
+            this.singleVidActorFlow.Name = "singleVidActorFlow";
+            this.singleVidActorFlow.Size = new System.Drawing.Size(777, 47);
+            this.singleVidActorFlow.TabIndex = 10;
+            // 
+            // singleVidActor
+            // 
+            this.singleVidActor.AutoSize = true;
+            this.singleVidActor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.singleVidActor.Location = new System.Drawing.Point(3, 0);
+            this.singleVidActor.Name = "singleVidActor";
+            this.singleVidActor.Size = new System.Drawing.Size(96, 29);
+            this.singleVidActor.TabIndex = 7;
+            this.singleVidActor.TabStop = true;
+            this.singleVidActor.Text = "Actor(s)";
+            this.singleVidActor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.singleVidActor_LinkClicked);
+            // 
+            // singleVidEmail
+            // 
+            this.singleVidEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.singleVidEmail.AutoSize = true;
+            this.singleVidEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.singleVidEmail.Location = new System.Drawing.Point(14, 579);
+            this.singleVidEmail.Name = "singleVidEmail";
+            this.singleVidEmail.Size = new System.Drawing.Size(98, 29);
+            this.singleVidEmail.TabIndex = 9;
+            this.singleVidEmail.TabStop = true;
+            this.singleVidEmail.Text = "Account";
+            this.singleVidEmail.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.singleVidEmail_LinkClicked);
+            // 
+            // singleVidName
+            // 
+            this.singleVidName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.singleVidName.AutoEllipsis = true;
+            this.singleVidName.AutoSize = true;
+            this.singleVidName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.singleVidName.ForeColor = System.Drawing.Color.White;
+            this.singleVidName.Location = new System.Drawing.Point(15, 431);
+            this.singleVidName.Name = "singleVidName";
+            this.singleVidName.Size = new System.Drawing.Size(178, 36);
+            this.singleVidName.TabIndex = 6;
+            this.singleVidName.Text = "Video Name";
+            // 
+            // singleVidPic
+            // 
+            this.singleVidPic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.singleVidPic.Location = new System.Drawing.Point(3, 5);
+            this.singleVidPic.Name = "singleVidPic";
+            this.singleVidPic.Size = new System.Drawing.Size(789, 415);
+            this.singleVidPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.singleVidPic.TabIndex = 5;
+            this.singleVidPic.TabStop = false;
+            // 
             // newVidPanel
             // 
             this.newVidPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.newVidPanel.Controls.Add(this.suggestedPanel);
+            this.newVidPanel.Controls.Add(this.newVidPicsHolder);
             this.newVidPanel.Controls.Add(this.label7);
             this.newVidPanel.Controls.Add(this.newVidLink);
             this.newVidPanel.Controls.Add(this.newVidSave);
-            this.newVidPanel.Controls.Add(this.suggestedPanel);
             this.newVidPanel.Controls.Add(this.buttonOpenImage);
-            this.newVidPanel.Controls.Add(this.newVidImage);
             this.newVidPanel.Controls.Add(this.label4);
             this.newVidPanel.Controls.Add(this.label3);
             this.newVidPanel.Controls.Add(this.label2);
@@ -305,6 +603,30 @@ namespace videoApp
             this.newVidPanel.Visible = false;
             this.newVidPanel.Click += new System.EventHandler(this.panelNewVid_Click);
             // 
+            // suggestedPanel
+            // 
+            this.suggestedPanel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.suggestedPanel.AutoScroll = true;
+            this.suggestedPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.suggestedPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.suggestedPanel.Location = new System.Drawing.Point(192, 68);
+            this.suggestedPanel.Name = "suggestedPanel";
+            this.suggestedPanel.Size = new System.Drawing.Size(300, 194);
+            this.suggestedPanel.TabIndex = 10;
+            this.suggestedPanel.Visible = false;
+            // 
+            // newVidPicsHolder
+            // 
+            this.newVidPicsHolder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.newVidPicsHolder.AutoScroll = true;
+            this.newVidPicsHolder.Location = new System.Drawing.Point(22, 74);
+            this.newVidPicsHolder.Name = "newVidPicsHolder";
+            this.newVidPicsHolder.Size = new System.Drawing.Size(442, 340);
+            this.newVidPicsHolder.TabIndex = 14;
+            this.newVidPicsHolder.Click += new System.EventHandler(this.panelNewVid_Click);
+            // 
             // label7
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -312,9 +634,9 @@ namespace videoApp
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(491, 423);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(38, 20);
+            this.label7.Size = new System.Drawing.Size(111, 20);
             this.label7.TabIndex = 13;
-            this.label7.Text = "Link";
+            this.label7.Text = "Link / Location";
             // 
             // newVidLink
             // 
@@ -326,6 +648,7 @@ namespace videoApp
             this.newVidLink.Name = "newVidLink";
             this.newVidLink.Size = new System.Drawing.Size(289, 26);
             this.newVidLink.TabIndex = 12;
+            this.newVidLink.Enter += new System.EventHandler(this.panelNewVid_Click);
             // 
             // newVidSave
             // 
@@ -340,18 +663,6 @@ namespace videoApp
             this.newVidSave.UseVisualStyleBackColor = true;
             this.newVidSave.Click += new System.EventHandler(this.newVidSave_Click);
             // 
-            // suggestedPanel
-            // 
-            this.suggestedPanel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.suggestedPanel.AutoScroll = true;
-            this.suggestedPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.suggestedPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.suggestedPanel.Location = new System.Drawing.Point(231, 74);
-            this.suggestedPanel.Name = "suggestedPanel";
-            this.suggestedPanel.Size = new System.Drawing.Size(258, 194);
-            this.suggestedPanel.TabIndex = 10;
-            this.suggestedPanel.Visible = false;
-            // 
             // buttonOpenImage
             // 
             this.buttonOpenImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -360,24 +671,12 @@ namespace videoApp
             this.buttonOpenImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonOpenImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOpenImage.ForeColor = System.Drawing.Color.White;
-            this.buttonOpenImage.Location = new System.Drawing.Point(424, 339);
+            this.buttonOpenImage.Location = new System.Drawing.Point(424, 420);
             this.buttonOpenImage.Name = "buttonOpenImage";
             this.buttonOpenImage.Size = new System.Drawing.Size(40, 40);
             this.buttonOpenImage.TabIndex = 9;
             this.buttonOpenImage.UseVisualStyleBackColor = false;
             this.buttonOpenImage.Click += new System.EventHandler(this.buttonOpenImage_Click);
-            // 
-            // newVidImage
-            // 
-            this.newVidImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.newVidImage.Location = new System.Drawing.Point(22, 41);
-            this.newVidImage.Name = "newVidImage";
-            this.newVidImage.Size = new System.Drawing.Size(442, 340);
-            this.newVidImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.newVidImage.TabIndex = 8;
-            this.newVidImage.TabStop = false;
             // 
             // label4
             // 
@@ -478,192 +777,6 @@ namespace videoApp
             this.newVidName.TextChanged += new System.EventHandler(this.newVidName_TextChanged);
             this.newVidName.Enter += new System.EventHandler(this.newVidName_Enter);
             // 
-            // singleVidPanel
-            // 
-            this.singleVidPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.singleVidPanel.Controls.Add(this.viewVidButton);
-            this.singleVidPanel.Controls.Add(this.conformDeletePanel);
-            this.singleVidPanel.Controls.Add(this.deleteVidButton);
-            this.singleVidPanel.Controls.Add(this.editVidButton);
-            this.singleVidPanel.Controls.Add(this.singleVidGenreFlow);
-            this.singleVidPanel.Controls.Add(this.singleVidActorFlow);
-            this.singleVidPanel.Controls.Add(this.singleVidEmail);
-            this.singleVidPanel.Controls.Add(this.singleVidName);
-            this.singleVidPanel.Controls.Add(this.singleVidPic);
-            this.singleVidPanel.Location = new System.Drawing.Point(210, 80);
-            this.singleVidPanel.Name = "singleVidPanel";
-            this.singleVidPanel.Size = new System.Drawing.Size(789, 629);
-            this.singleVidPanel.TabIndex = 8;
-            this.singleVidPanel.Visible = false;
-            // 
-            // viewVidButton
-            // 
-            this.viewVidButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewVidButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("viewVidButton.BackgroundImage")));
-            this.viewVidButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.viewVidButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.viewVidButton.Location = new System.Drawing.Point(570, 576);
-            this.viewVidButton.Name = "viewVidButton";
-            this.viewVidButton.Size = new System.Drawing.Size(50, 50);
-            this.viewVidButton.TabIndex = 14;
-            this.viewVidButton.UseVisualStyleBackColor = true;
-            this.viewVidButton.Click += new System.EventHandler(this.viewVidButton_Click);
-            // 
-            // conformDeletePanel
-            // 
-            this.conformDeletePanel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.conformDeletePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.conformDeletePanel.Controls.Add(this.cancelDelete);
-            this.conformDeletePanel.Controls.Add(this.confirmDelete);
-            this.conformDeletePanel.Controls.Add(this.label5);
-            this.conformDeletePanel.Location = new System.Drawing.Point(206, 86);
-            this.conformDeletePanel.Name = "conformDeletePanel";
-            this.conformDeletePanel.Size = new System.Drawing.Size(361, 297);
-            this.conformDeletePanel.TabIndex = 13;
-            this.conformDeletePanel.Visible = false;
-            // 
-            // cancelDelete
-            // 
-            this.cancelDelete.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.cancelDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.cancelDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cancelDelete.Location = new System.Drawing.Point(203, 208);
-            this.cancelDelete.Name = "cancelDelete";
-            this.cancelDelete.Size = new System.Drawing.Size(124, 44);
-            this.cancelDelete.TabIndex = 14;
-            this.cancelDelete.Text = "No";
-            this.cancelDelete.UseVisualStyleBackColor = true;
-            this.cancelDelete.Click += new System.EventHandler(this.cancelDelete_Click);
-            // 
-            // confirmDelete
-            // 
-            this.confirmDelete.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.confirmDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.confirmDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.confirmDelete.Location = new System.Drawing.Point(32, 208);
-            this.confirmDelete.Name = "confirmDelete";
-            this.confirmDelete.Size = new System.Drawing.Size(124, 44);
-            this.confirmDelete.TabIndex = 13;
-            this.confirmDelete.Text = "Delete";
-            this.confirmDelete.UseVisualStyleBackColor = true;
-            this.confirmDelete.Click += new System.EventHandler(this.confirmDelete_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(61, 69);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(241, 40);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Are you sure?";
-            // 
-            // deleteVidButton
-            // 
-            this.deleteVidButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteVidButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("deleteVidButton.BackgroundImage")));
-            this.deleteVidButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.deleteVidButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.deleteVidButton.Location = new System.Drawing.Point(730, 576);
-            this.deleteVidButton.Name = "deleteVidButton";
-            this.deleteVidButton.Size = new System.Drawing.Size(50, 50);
-            this.deleteVidButton.TabIndex = 12;
-            this.deleteVidButton.UseVisualStyleBackColor = true;
-            this.deleteVidButton.Click += new System.EventHandler(this.deleteVidButton_Click);
-            // 
-            // editVidButton
-            // 
-            this.editVidButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.editVidButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("editVidButton.BackgroundImage")));
-            this.editVidButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.editVidButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editVidButton.Location = new System.Drawing.Point(650, 576);
-            this.editVidButton.Name = "editVidButton";
-            this.editVidButton.Size = new System.Drawing.Size(50, 50);
-            this.editVidButton.TabIndex = 12;
-            this.editVidButton.UseVisualStyleBackColor = true;
-            this.editVidButton.Click += new System.EventHandler(this.editVidButton_Click);
-            // 
-            // singleVidGenreFlow
-            // 
-            this.singleVidGenreFlow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.singleVidGenreFlow.Controls.Add(this.singleVidGenre);
-            this.singleVidGenreFlow.Location = new System.Drawing.Point(12, 516);
-            this.singleVidGenreFlow.Name = "singleVidGenreFlow";
-            this.singleVidGenreFlow.Size = new System.Drawing.Size(774, 54);
-            this.singleVidGenreFlow.TabIndex = 11;
-            // 
-            // singleVidGenre
-            // 
-            this.singleVidGenre.AutoSize = true;
-            this.singleVidGenre.Location = new System.Drawing.Point(3, 0);
-            this.singleVidGenre.Name = "singleVidGenre";
-            this.singleVidGenre.Size = new System.Drawing.Size(72, 20);
-            this.singleVidGenre.TabIndex = 8;
-            this.singleVidGenre.TabStop = true;
-            this.singleVidGenre.Text = "Genre(s)";
-            this.singleVidGenre.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.singleVidGenre_LinkClicked);
-            // 
-            // singleVidActorFlow
-            // 
-            this.singleVidActorFlow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.singleVidActorFlow.Controls.Add(this.singleVidActor);
-            this.singleVidActorFlow.Location = new System.Drawing.Point(12, 452);
-            this.singleVidActorFlow.Name = "singleVidActorFlow";
-            this.singleVidActorFlow.Size = new System.Drawing.Size(777, 58);
-            this.singleVidActorFlow.TabIndex = 10;
-            // 
-            // singleVidActor
-            // 
-            this.singleVidActor.AutoSize = true;
-            this.singleVidActor.Location = new System.Drawing.Point(3, 0);
-            this.singleVidActor.Name = "singleVidActor";
-            this.singleVidActor.Size = new System.Drawing.Size(65, 20);
-            this.singleVidActor.TabIndex = 7;
-            this.singleVidActor.TabStop = true;
-            this.singleVidActor.Text = "Actor(s)";
-            this.singleVidActor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.singleVidActor_LinkClicked);
-            // 
-            // singleVidEmail
-            // 
-            this.singleVidEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.singleVidEmail.AutoSize = true;
-            this.singleVidEmail.Location = new System.Drawing.Point(12, 573);
-            this.singleVidEmail.Name = "singleVidEmail";
-            this.singleVidEmail.Size = new System.Drawing.Size(68, 20);
-            this.singleVidEmail.TabIndex = 9;
-            this.singleVidEmail.TabStop = true;
-            this.singleVidEmail.Text = "Account";
-            this.singleVidEmail.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.singleVidEmail_LinkClicked);
-            // 
-            // singleVidName
-            // 
-            this.singleVidName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.singleVidName.AutoSize = true;
-            this.singleVidName.ForeColor = System.Drawing.Color.White;
-            this.singleVidName.Location = new System.Drawing.Point(15, 429);
-            this.singleVidName.Name = "singleVidName";
-            this.singleVidName.Size = new System.Drawing.Size(90, 20);
-            this.singleVidName.TabIndex = 6;
-            this.singleVidName.Text = "video name";
-            // 
-            // singleVidPic
-            // 
-            this.singleVidPic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.singleVidPic.Location = new System.Drawing.Point(3, 5);
-            this.singleVidPic.Name = "singleVidPic";
-            this.singleVidPic.Size = new System.Drawing.Size(789, 415);
-            this.singleVidPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.singleVidPic.TabIndex = 5;
-            this.singleVidPic.TabStop = false;
-            // 
             // searchBarPanel
             // 
             this.searchBarPanel.Controls.Add(this.searchBarTextBox);
@@ -711,11 +824,11 @@ namespace videoApp
             this.button2.ForeColor = System.Drawing.Color.White;
             this.button2.Location = new System.Drawing.Point(-7, 500);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(211, 60);
+            this.button2.Size = new System.Drawing.Size(208, 60);
             this.button2.TabIndex = 8;
             this.button2.Text = "Change Pass";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.newPass_Click);
             // 
             // buttonEmails
             // 
@@ -727,9 +840,9 @@ namespace videoApp
             this.buttonEmails.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonEmails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonEmails.ForeColor = System.Drawing.Color.White;
-            this.buttonEmails.Location = new System.Drawing.Point(-7, 394);
+            this.buttonEmails.Location = new System.Drawing.Point(0, 394);
             this.buttonEmails.Name = "buttonEmails";
-            this.buttonEmails.Size = new System.Drawing.Size(211, 60);
+            this.buttonEmails.Size = new System.Drawing.Size(201, 60);
             this.buttonEmails.TabIndex = 2;
             this.buttonEmails.Text = "Accounts";
             this.buttonEmails.UseVisualStyleBackColor = false;
@@ -745,9 +858,9 @@ namespace videoApp
             this.addNewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addNewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addNewButton.ForeColor = System.Drawing.Color.White;
-            this.addNewButton.Location = new System.Drawing.Point(-7, 154);
+            this.addNewButton.Location = new System.Drawing.Point(0, 154);
             this.addNewButton.Name = "addNewButton";
-            this.addNewButton.Size = new System.Drawing.Size(211, 60);
+            this.addNewButton.Size = new System.Drawing.Size(201, 60);
             this.addNewButton.TabIndex = 5;
             this.addNewButton.Text = "New";
             this.addNewButton.UseVisualStyleBackColor = false;
@@ -763,9 +876,9 @@ namespace videoApp
             this.buttonGenre.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGenre.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonGenre.ForeColor = System.Drawing.Color.White;
-            this.buttonGenre.Location = new System.Drawing.Point(-7, 334);
+            this.buttonGenre.Location = new System.Drawing.Point(0, 334);
             this.buttonGenre.Name = "buttonGenre";
-            this.buttonGenre.Size = new System.Drawing.Size(211, 60);
+            this.buttonGenre.Size = new System.Drawing.Size(201, 60);
             this.buttonGenre.TabIndex = 3;
             this.buttonGenre.Text = "Genres";
             this.buttonGenre.UseVisualStyleBackColor = false;
@@ -781,9 +894,9 @@ namespace videoApp
             this.buttonActors.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonActors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonActors.ForeColor = System.Drawing.Color.White;
-            this.buttonActors.Location = new System.Drawing.Point(-7, 274);
+            this.buttonActors.Location = new System.Drawing.Point(0, 274);
             this.buttonActors.Name = "buttonActors";
-            this.buttonActors.Size = new System.Drawing.Size(211, 60);
+            this.buttonActors.Size = new System.Drawing.Size(201, 60);
             this.buttonActors.TabIndex = 1;
             this.buttonActors.Text = "Actors";
             this.buttonActors.UseVisualStyleBackColor = false;
@@ -799,22 +912,17 @@ namespace videoApp
             this.buttonVideos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonVideos.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonVideos.ForeColor = System.Drawing.Color.White;
-            this.buttonVideos.Location = new System.Drawing.Point(-7, 214);
+            this.buttonVideos.Location = new System.Drawing.Point(0, 214);
             this.buttonVideos.Name = "buttonVideos";
-            this.buttonVideos.Size = new System.Drawing.Size(211, 60);
+            this.buttonVideos.Size = new System.Drawing.Size(201, 60);
             this.buttonVideos.TabIndex = 7;
             this.buttonVideos.Text = "Videos";
             this.buttonVideos.UseVisualStyleBackColor = false;
             this.buttonVideos.Click += new System.EventHandler(this.buttonVideos_Click);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // browserPanel
             // 
             this.browserPanel.Controls.Add(this.leaveBrowserButton);
-            this.browserPanel.Controls.Add(this.webBrowser1);
             this.browserPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.browserPanel.Location = new System.Drawing.Point(0, 0);
             this.browserPanel.Name = "browserPanel";
@@ -831,21 +939,12 @@ namespace videoApp
             this.leaveBrowserButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.leaveBrowserButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.leaveBrowserButton.ForeColor = System.Drawing.Color.White;
-            this.leaveBrowserButton.Location = new System.Drawing.Point(963, 0);
+            this.leaveBrowserButton.Location = new System.Drawing.Point(973, 0);
             this.leaveBrowserButton.Name = "leaveBrowserButton";
-            this.leaveBrowserButton.Size = new System.Drawing.Size(40, 40);
+            this.leaveBrowserButton.Size = new System.Drawing.Size(30, 30);
             this.leaveBrowserButton.TabIndex = 3;
             this.leaveBrowserButton.UseVisualStyleBackColor = false;
             this.leaveBrowserButton.Click += new System.EventHandler(this.leaveBrowserButton_Click);
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(1002, 712);
-            this.webBrowser1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -863,21 +962,22 @@ namespace videoApp
             this.panelLogIn.PerformLayout();
             this.panelHome.ResumeLayout(false);
             this.specRecordPanel.ResumeLayout(false);
+            this.specRecordPanel.PerformLayout();
+            this.specPicHolder.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.specPhoto)).EndInit();
             this.deleteSpecPanel.ResumeLayout(false);
             this.deleteSpecPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.specPhoto)).EndInit();
-            this.newVidPanel.ResumeLayout(false);
-            this.newVidPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.newVidImage)).EndInit();
             this.singleVidPanel.ResumeLayout(false);
             this.singleVidPanel.PerformLayout();
-            this.conformDeletePanel.ResumeLayout(false);
-            this.conformDeletePanel.PerformLayout();
             this.singleVidGenreFlow.ResumeLayout(false);
             this.singleVidGenreFlow.PerformLayout();
+            this.conformDeletePanel.ResumeLayout(false);
+            this.conformDeletePanel.PerformLayout();
             this.singleVidActorFlow.ResumeLayout(false);
             this.singleVidActorFlow.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.singleVidPic)).EndInit();
+            this.newVidPanel.ResumeLayout(false);
+            this.newVidPanel.PerformLayout();
             this.searchBarPanel.ResumeLayout(false);
             this.searchBarPanel.PerformLayout();
             this.mainButtonsHolder.ResumeLayout(false);
@@ -906,9 +1006,6 @@ namespace videoApp
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox newVidAccount;
         private System.Windows.Forms.TextBox newVidGenre;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button buttonOpenImage;
-        private System.Windows.Forms.PictureBox newVidImage;
         private System.Windows.Forms.FlowLayoutPanel suggestedPanel;
         private System.Windows.Forms.Button newVidSave;
         private System.Windows.Forms.Panel mainButtonsHolder;
@@ -939,11 +1036,19 @@ namespace videoApp
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel browserPanel;
         private System.Windows.Forms.Button viewVidButton;
-        private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.Button leaveBrowserButton;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox newVidLink;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button saveSpecImgButton;
+        private System.Windows.Forms.Button saveVidImgButton;
+        private System.Windows.Forms.FlowLayoutPanel newVidPicsHolder;
+        private System.Windows.Forms.Button buttonOpenImage;
+        private System.Windows.Forms.Panel specPicHolder;
+        private System.Windows.Forms.Button rightSpecButton;
+        private System.Windows.Forms.Button leftSpecButton;
+        private System.Windows.Forms.Button leftSingle;
+        private System.Windows.Forms.Button rightSingle;
     }
 }
 

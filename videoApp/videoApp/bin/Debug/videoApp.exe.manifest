@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="videoApp.exe" version="1.0.0.3" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="videoApp.exe" version="1.0.0.4" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
     <assemblyIdentity name="videoApp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
@@ -42,14 +42,38 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="videoApp.exe" size="268256">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AxInterop.WMPLib.dll" size="53760">
+      <assemblyIdentity name="AxInterop.WMPLib" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>P9iQHeIQyzFy1K/quHKYTrwrQ+0uYx0ULky8cAAbA0s=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Interop.WMPLib.dll" size="330752">
+      <assemblyIdentity name="Interop.WMPLib" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>Is3ZPldiiy1TBGVbmfRXPe07Nh+a62b/jneiOjC99bE=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="videoApp.exe" size="576992">
       <assemblyIdentity name="videoApp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>JDw7LhjrCL0cygoq2qCAhiGIX/yhBrLX8olxXEftcx4=</dsig:DigestValue>
+        <dsig:DigestValue>KeJ2sCbr2LE6v09+RnXAn7P8Fa/Py2jzj4/dT57Penc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -98,6 +122,24 @@
       <dsig:DigestValue>gnV/eJByXn3czvgulhVjO9UYhc9vbqw4i9kilB618VQ=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Properties\UI_Icon_PlayBackwards.png" size="1601">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>tyNR2Upw1N8iSdELg1qXl4BzMIuY3E9/VhxhCuVgn2s=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Properties\UI_Icon_Plus.png" size="1228">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>tx507PQ93Ub5hasB/dY5xsOLlcRhe5Y5kvbb4SxMDCA=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Properties\UI_Icon_Question.png" size="2271">
     <hash>
       <dsig:Transforms>
@@ -114,6 +156,33 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>8df/J4yDJ42DjqfUc8kAlW3JyO7zjagodnlDMHzbHd0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Properties\UI_Icon_Save2.png" size="1956">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>UAdgjOWy8ay5ZemItcWM0cJtvFF4FFF2yy1CPps6brE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Properties\UI_Icon_ToggleNext.png" size="2139">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>zQ2nTZy15rDKq4OqMCwd5vbp2shyjdTYLOwIzCEXZOQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Properties\UI_Icon_TogglePrevious.png" size="1863">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>T6kmQk+nyt7B2WOMuQXAXbDG67/myFV7fLonau9VFd4=</dsig:DigestValue>
     </hash>
   </file>
   <file name="videoApp.exe.config" size="188">

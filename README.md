@@ -14,10 +14,14 @@ You may want to change it to something more difficult.
 
 From there you will get:
 
-SEARCH BAR
+SEARCH BAR (special)
 
 You may search through all the records of videos that exist. Initiate the search by
 hitting 'Enter'
+
+when you click on the Actors/Genres/Accounts with text in the search bar, it will arange the results in order based on the letter(s) in the search bar
+For example, if you type 'h' in the search bar then click on Actors, then it will show all actors, with those starting with 'h' at the top of the results
+Or, if you type 'ro' in the search bar then click on Genres, then it will show all genres, with those starting with 'ro' at the top of the results
 
 NEW
 
@@ -30,8 +34,9 @@ This displays all the movies that currently exists in the database. When you cli
 a video, you would gett all the details about it.
 You may click on a video, which would open another panel showing the details of
 that specific video. You may either: 
+Save the current photo being displayed
 Edit the details of the video, 
-View the video through a link, 
+View the video through a link / file path to the video
 or Detete the video.
 
 ACTORS

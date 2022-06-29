@@ -12,24 +12,29 @@ namespace videoApp
 {
     public partial class Form1 : Form
     {
+        AxWMPLib.AxWindowsMediaPlayer wmp;
+        WebBrowser wb;
         bool searching = false;
         public bool newActorNow = false, newGenreNow = false, newAccountNow = false;
         Panel[] panelSwitches;
-        Button[] homeButtons;
-        smallRecord[] sRecords;
+        //Button[] homeButtons;
+        //smallRecord[] sRecords;
         //used as a holder to keep track of images that are currently in the process of being loaded
         List<string> currSearch = new List<string>();
         public enum searchType { none, actor, genre, email }
         searchType curSpec;
         customVideo currentVideo;
+        Image[] specImgs;
+        Font linkFont;
         bool ifNewVideo = false;
         public Form1()
         {
             InitializeComponent();
             dataControl.loadInfo();
             panelSwitches = new Panel[] { newVidPanel, allContentPanel, specRecordPanel, singleVidPanel };
-            homeButtons = new Button[] {addNewButton, buttonEmails,buttonGenre,buttonActors, buttonVideos };
+            //homeButtons = new Button[] {addNewButton, buttonEmails,buttonGenre,buttonActors, buttonVideos };
             textBox1.Select();
+            linkFont = singleVidGenre.Font;
         }
 
 
@@ -62,6 +67,8 @@ namespace videoApp
         {
             switchPanel(specRecordPanel);
             List<customRecord> cr = new List<customRecord>();
+            string cWords = searchBarTextBox.Text.ToLower();
+            string[] words = cWords.Split(' ');
             string t = "";
             switch (st)
             {
@@ -81,19 +88,34 @@ namespace videoApp
                         cr.Add(e);
                     break;
             }
+            /*a somewhat nifty tool when searching for specific actors/genres/emails
+             *by the first letter(s) of the name 
+             */
+            if (words[0] != "") cr = cr.OrderByDescending(x => x.customName.ToLower().StartsWith(words[0])).ToList();
+            else cr.Sort((x,y) => string.Compare(x.customName,y.customName));
             specLabel.Text = t;
             specPhoto.Image = null;
+            leftSpecButton.Visible = rightSpecButton.Visible = false;
+            specImgs = null;
+            picNo = 0;
             deleteSpecButton.Visible = false;
-            specRecordHolder.Controls.Clear();
+            //while (specRecordHolder.Controls.Count > 0)
+            //    specRecordHolder.Controls[0].Dispose();
+            ctrlDispose(specRecordHolder.Controls);
             for (int i = 0; i < cr.Count; i++)
             {
                 subRecord sr = new subRecord();
                 sr.recordTitle = cr[i].customName;
                 sr.metaData = st.ToString();
                 sr.picId = cr[i].picId;
-                guPix gg = dataControl.images.Find(g => g.id == cr[i].picId);
-                if (gg != null) sr.bigPic = gg.pic;
-                else if (!currSearch.Contains(cr[i].picId))
+                //guPix gg = dataControl.images.Find(g => g.id == cr[i].picId);
+
+                //if (gg != null)
+                //{
+                //    sr.bigPic = gg.pics[0];
+                //    sr.guP = gg;
+                //}
+                //else if (!currSearch.Contains(cr[i].picId))
                     loadImgNow(cr[i].picId, null, null, sr);
 
                 specRecordHolder.Controls.Add(sr);
@@ -111,26 +133,58 @@ namespace videoApp
         void switchPanel(Panel p)
         {
             if (newVidPanel.Visible) wipeNewData();
-            foreach (Panel pp in panelSwitches)if (pp.Name != p.Name) pp.Visible = false;
+            else if (allContentPanel.Visible) ctrlDispose(allContentPanel.Controls);
+            //while (allContentPanel.Controls.Count > 0)
+            //    allContentPanel.Controls[0].Dispose();
+            else if (specRecordPanel.Visible) ctrlDispose(specRecordHolder.Controls);
+            //while (specRecordHolder.Controls.Count > 0)
+            //    specRecordHolder.Controls[0].Dispose();
+            foreach (Panel pp in panelSwitches)
+                if (pp.Visible && pp.Name != p.Name) pp.Visible = false;
             if (!p.Visible)p.Visible = true;
+            if (specImgs != null && !singleVidPanel.Visible)//since single vid panel uses specImgs as well
+            {
+                specImgs = null;
+                picNo = 0;
+            }
+        }
+
+        void ctrlDispose(Control.ControlCollection ctrls, bool skipWait = false)
+        {
+            while (ctrls.Count > 0) if (!ctrls[0].Disposing) ctrls[0].Dispose();
+            if (!skipWait)System.Threading.SpinWait.SpinUntil(() => ctrls.Count ==0);
         }
         //loads the image to the user control
-        async void loadImgNow(string id, smallRecord sr, sigRecord br = null, subRecord sb = null, PictureBox pb = null)
+        async void loadImgNow(string id, smallRecord sr = null, sigRecord br = null, subRecord sb = null, PictureBox pb = null)
         {
             //makes sure to not search for the same image twice, thus add to currSearch list
             currSearch.Add(id);
             guPix gp = null;
-            await Task.Run(() => gp = dataControl.loadGuPix(id));
+            do await Task.Run(() => gp = dataControl.loadGuPix(id));
+            while (gp == null);
             //await Task.Run(() => b = pixelCtrl.loadImage(gp.pic));
-            Image i = gp.pic;
-            dataControl.images.Add(gp);
+            Image i = gp.pics[0];
+            //dataControl.images.Add(gp);
             //removes the id once the search is complete
             currSearch.Remove(id);
             //once the usercontrol is still viewable, show the image
             if (sr != null) sr.performPic = i;
-            else if (br != null) br.bigPic = i;
-            else if (sb != null) sb.bigPic = i;
-            else if (pb != null) pb.Image = i;
+            else if (br != null) { br.bigPic = i; br.Imgs = gp.pics; }
+            else if (sb != null) { sb.bigPic = i; sb.guP = gp; }
+            else if (pb != null)
+            {
+                pb.Image = i;
+                if (gp.pics.Length > 1)
+                { specImgs = gp.pics; picNo = 0; leftSpecButton.Visible = rightSpecButton.Visible = true; }
+                else { specImgs = null; picNo = 0; leftSpecButton.Visible = rightSpecButton.Visible = false;
+                    if (gp.id != dataControl.defNm) deleteSpecButton.Visible = true;else deleteSpecButton.Visible = false;}
+            }
+            else foreach (Image s in gp.pics)//loading images to be edited
+                {
+                    newVidPic nvp = new newVidPic();
+                    nvp.bigPic = s;
+                    newVidPicsHolder.Controls.Add(nvp);
+                }
         }
 
         #endregion
@@ -143,15 +197,25 @@ namespace videoApp
             foreach (var codec in codecs) codecFilter += codec.FilenameExtension + ";";
 
             //openFileDialog1.Filter = "Image Files | *.jpg;*.jpeg;*.png";
-            openFileDialog1.Filter = codecFilter;
-            openFileDialog1.InitialDirectory = @"C:\";
-            openFileDialog1.Title = "Please select an image";
-
-            //openFileDialog1.ShowDialog();
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                string name = openFileDialog1.FileName;
-                newVidImage.ImageLocation = name;
+                openFileDialog1.Filter = codecFilter;
+                openFileDialog1.InitialDirectory = dataControl.lastFilePath;
+                openFileDialog1.Title = "Please select an image";
+                openFileDialog1.Multiselect = true;
+                //openFileDialog1.ShowDialog();
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    string name = openFileDialog1.FileName;
+                    //newVidImage.ImageLocation = name;
+                    foreach (string s in openFileDialog1.FileNames)
+                    {
+                        newVidPic nvp = new newVidPic();
+                        nvp.bigPic = Image.FromFile(s);
+                        newVidPicsHolder.Controls.Add(nvp);
+                    }
+                    dataControl.lastFilePath = name;
+                }
             }
         }
 
@@ -189,22 +253,21 @@ namespace videoApp
             performSearch(sender);
         }
         
-        //private void newVidName_Leave(object sender, EventArgs e)
-        //{
-        //    if (ifNewVideo && suggestedPanel.Controls.Count > 0 && newVidPanel.Visible)
-        //        MessageBox.Show("You can't have a video with the same name as another!");
-        //}
-        //does a search for records with a similar name
+        //does a search for records with a similar name for the smaller suggestedPanel
         public void performSearch(object ob)
         {
             if (!suggestedPanel.Visible) suggestedPanel.Visible = true;
             TextBox tb = (TextBox)ob;
             string[] names = tb.Text.Split(',');
             int last = names.Length - 1;
+            string searchWord;
+            if (tb.Name.EndsWith("Name")) searchWord = tb.Text;
+            else searchWord = names[last];
+            searchWord = searchWord.ToLower();
 
-            if (suggestedPanel.Controls.Count > 0)
-                suggestedPanel.Controls.Clear();
-
+            if (suggestedPanel.Controls.Count > 0) ctrlDispose(suggestedPanel.Controls,true);
+                //while (suggestedPanel.Controls.Count > 0)
+                //    suggestedPanel.Controls[0].Dispose();
 
             List<customRecord> records = new List<customRecord>();
 
@@ -212,7 +275,7 @@ namespace videoApp
             {
                 foreach (customVideo v in dataControl.info.videos)
                 {
-                    if (!records.Contains(v) && v.customName.Contains(tb.Text))
+                    if (!records.Contains(v) && v.customName.ToLower().Contains(/*tb.Text*/searchWord))
                         records.Add(v);
                 }
             }
@@ -220,44 +283,45 @@ namespace videoApp
             else if (tb.Name.EndsWith("Actor"))
             {
                 foreach (customRecord p in dataControl.info.performers)
-                    if (!records.Contains(p) && p.customName.Contains(names[last]))
+                    if (!records.Contains(p) && p.customName.ToLower().Contains(/*names[last]*/searchWord))
                         records.Add(p);
             }
             else if (tb.Name.EndsWith("Genre"))
             {
                 foreach (customRecord g in dataControl.info.genres)
-                    if (!records.Contains(g) && g.customName.Contains(names[last]))
+                    if (!records.Contains(g) && g.customName.ToLower().Contains(/*names[last]*/searchWord))
                         records.Add(g);
             }
             else if (tb.Name.EndsWith("Account"))
             {
                 foreach (customRecord g in dataControl.info.accounts)
-                    if (!records.Contains(g) && g.customName.Contains(names[last]))
+                    if (!records.Contains(g) && g.customName.ToLower().Contains(/*names[last]*/searchWord))
                         records.Add(g);
             }
             //once there is text in the last entered name, add new record user control
-            if ((names[last] == "" || !names[last].Any(x => char.IsLetter(x)) || records.Count == 0) && !tb.Name.EndsWith("Name"))
+            if ((searchWord == "" || (!searchWord.Any(x => char.IsLetter(x)) && !searchWord.Any(x => char.IsNumber(x))) || records.Count == 0) && !tb.Name.EndsWith("Name"))
             {
-                sRecords = null;
+                //sRecords = null;
                 newSmallRecord nsp = new newSmallRecord();
                 nsp.record_name = names[last];
+                nsp.if_multi = tb.Name.EndsWith("Actor");
                 suggestedPanel.Controls.Add(nsp);
                 return;
             }
-            sRecords = new smallRecord[records.Count];
+            //sRecords = new smallRecord[records.Count];
 
             //goes through all the records of data that is available
             for (int i = 0; i < records.Count; i++)
             {
-                sRecords[i] = new smallRecord();
-                sRecords[i].mainName = records[i].customName;
+                smallRecord sRecord = new smallRecord();
+                sRecord.mainName = records[i].customName;
                 
-                guPix gg = dataControl.images.Find(g => g.id == records[i].picId);
-                if (gg != null) sRecords[i].performPic = gg.pic;
-                else if (!currSearch.Contains(records[i].picId))
-                    loadImgNow(records[i].picId, sRecords[i], null, null);
+                //guPix gg = dataControl.images.Find(g => g.id == records[i].picId);
+                //if (gg != null) sRecords[i].performPic = gg.pics[0];
+                //else if (!currSearch.Contains(records[i].picId))
+                    loadImgNow(records[i].picId, sRecord);
                 
-                suggestedPanel.Controls.Add(sRecords[i]);
+                suggestedPanel.Controls.Add(sRecord);
             }
 
         }
@@ -267,14 +331,19 @@ namespace videoApp
         {
             TextBox tb = (TextBox)sender;
             //if Enter key is hit, and text is not empty, and search list is not empty
-            if (e.KeyChar != 13 || tb.Text == "" || tb.Text == null
-                || sRecords == null || sRecords[0] == null) return;
+            if (e.KeyChar != 13 || tb.Text == "" || tb.Text == null ||
+                //|| sRecords == null || sRecords[0] == null) return;
+                suggestedPanel.Controls.Count == 0) return;
+            smallRecord sr = null;
+
+            try {sr = (smallRecord)suggestedPanel.Controls[0];}
+            catch (Exception ex){return;}
 
             string[] names = tb.Text.Split(',');
             int last = names.Length - 1;
             if (tb.Name.EndsWith("Actor") || tb.Name.EndsWith("Genre") || tb.Name.EndsWith("Account"))
             {
-                names[last] = sRecords[0].mainName;
+                names[last] = sr/*[0]*/.mainName;
                 tb.Text = "";
                 for (int i = 0; i < names.Length; i++)
                 {
@@ -299,7 +368,8 @@ namespace videoApp
             else if (!newVidGenre.Text.Any(x => char.IsLetter(x))) s = "Enter a genre";
             else if (!newVidAccount.Text.Any(x => char.IsLetter(x))) s = "Enter an account";
             //else if (!newVidLink.Text.Any(x => char.IsLetter(x))) s = "Enter a link";
-            else if (newVidImage.Image == null) s = "Enter a picture";
+            //else if (newVidImage.Image == null) s = "Enter a picture";
+            else if (newVidPicsHolder.Controls.Count == 0) s = "Enter a picture";
             else if (ifNewVideo && dataControl.info.videos.Find(v => v.customName == newVidName.Text) != null) s = "Enter a unique name!";
             else if (!ifNewVideo && dataControl.info.videos.Find(v => v.customName == newVidName.Text) != null &&
                 newVidName.Text != currentVideo.customName) s = "You can't use a name already being used by another film!";
@@ -339,7 +409,9 @@ namespace videoApp
             for (int i = 0; i < cp.Length; i++) cp[i] = new customPerformer() { customName = p[i] };
             for (int i = 0; i < cg.Length; i++) cg[i] = new genre() { customName = g[i] };
 
-            guPix gp = new guPix() { pic = newVidImage.Image };
+            guPix gp = new guPix() { pics = new Image[newVidPicsHolder.Controls.Count] };// { pic = newVidImage.Image };
+            for(int i =0;i<newVidPicsHolder.Controls.Count;i++)
+                gp.pics[i] = ((newVidPic)newVidPicsHolder.Controls[i]).bigPic;
 
             customVideo cv = new customVideo()
             {
@@ -357,7 +429,7 @@ namespace videoApp
                 return;
             }
             dataControl.info.videos.Add(cv);
-            dataControl.images.Add(gp);
+            //dataControl.images.Add(gp);
             dataControl.saveInfo(gp);
 
             wipeNewData();
@@ -371,7 +443,12 @@ namespace videoApp
             newVidGenre.Text = "";
             newVidAccount.Text = "";
             newVidLink.Text = "";
-            newVidImage.Image = null;
+            //while (newVidPicsHolder.Controls.Count > 0)
+            //    newVidPicsHolder.Controls[0].Dispose();
+            //while (suggestedPanel.Controls.Count > 0)
+            //    suggestedPanel.Controls[0].Dispose();
+            ctrlDispose(newVidPicsHolder.Controls);
+            ctrlDispose(suggestedPanel.Controls);
         }
 
         #endregion
@@ -384,7 +461,6 @@ namespace videoApp
                 doWordSearch();
             }
         }
-
         private void buttonVideos_Click(object sender, EventArgs e) => doWordSearch();
 
         void doWordSearch()
@@ -393,7 +469,7 @@ namespace videoApp
             wordSearch(searchType.none, null);
         }
         
-        void wordSearch(searchType search, string name)
+        async void wordSearch(searchType search, string name)
         {
             searching = true;
             List<customVideo> vids = new List<customVideo>();
@@ -402,39 +478,77 @@ namespace videoApp
             {
                 //searches based on the text from the space bar
                 case searchType.none:
-                    string[] words = searchBarTextBox.Text.Split(' ');
-                    foreach (customVideo v in dataControl.info.videos)
-                        foreach (string w in words)
+                    string cWords = searchBarTextBox.Text.ToLower();
+                    string[] words = cWords.Split(' ');
+                    if (cWords != null && cWords != "")
+                        foreach (customVideo v in dataControl.info.videos)
                         {
-                            //video name
-                            if (v.customName.Contains(w))
+                            foreach (string w in words)
                             {
-                                vids.Add(v);
-                                break;
-                            }
-                            //search for performers's vids
-                            foreach (customPerformer p in v.performers)
-                                if (p.customName.Contains(w))
+                                //video name
+                                if (v.customName.ToLower().Contains(w))
                                 {
                                     vids.Add(v);
                                     break;
                                 }
-                            //search for genre
-                            if (!vids.Contains(v))
-                                foreach (genre g in v.genres)
-                                    if (g.customName.Contains(w))
+                                //search for account
+                                if (v.account.customName.ToLower() == w)
+                                {
+                                    vids.Add(v);
+                                    break;
+                                }
+                                //search for performers's vids
+                                foreach (customPerformer p in v.performers)
+                                    if (p.customName.ToLower().Contains(w))
                                     {
                                         vids.Add(v);
                                         break;
                                     }
-                            //search for account
-                            if (v.account.customName == w)
-                            {
-                                vids.Add(v);
-                                break;
+                                //search for genre
+                                if (!vids.Contains(v))
+                                    foreach (genre g in v.genres)
+                                        if (g.customName.ToLower().Contains(w))
+                                        {
+                                            vids.Add(v);
+                                            break;
+                                        }
+
+                                if (vids.Contains(v)) break;
                             }
-                            if (vids.Contains(v)) break;
+                            if (vids.Count >= 24) break;
+                            await Task.Delay(5);
                         }
+                    else
+                    {
+                        int vl = dataControl.info.videos.Count;
+                        Random r = new Random();
+                        //do
+                        if (dataControl.info.videos.Count > 1)
+                        {
+                            //|| vids.Count < dataControl.info.videos.Count
+
+                            int rn, vc = dataControl.info.videos.Count;
+                            bool lessThanCap = dataControl.info.videos.Count <= 24;
+                            for (int i = 0; i < 24 && i<vc; i++)
+                            {
+                                if (lessThanCap) rn = i;
+                                else rn = r.Next(0, vl);
+                                if (!vids.Contains(dataControl.info.videos[rn])) vids.Add(dataControl.info.videos[rn]);
+                                else i--;
+                                await Task.Delay(5);
+                            }
+                        }
+                    }
+                    /*ordering results by the first word in search bar
+                     * to make searching for movies a little easier
+                     * */
+                    if (words[0]!="")vids = vids.OrderByDescending(x =>
+                    x.customName.ToLower().StartsWith(words[0]) ||
+                    x.account.customName.ToLower().StartsWith(words[0]) ||
+                    Array.Find(x.performers, customPerformer => customPerformer.customName.ToLower().Contains(words[0]))!=null ||
+                    Array.Find(x.genres, genre => genre.customName.ToLower().StartsWith(words[0]))!=null
+                    ).ToList();
+                    else vids.Sort((x, y) => string.Compare(x.customName, y.customName));
                     break;
                     //searching for the videos with the actor
                 case searchType.actor:
@@ -459,33 +573,41 @@ namespace videoApp
             Panel chosenPanel;
             if (search == searchType.none) chosenPanel = allContentPanel;
             else chosenPanel = specRecordHolder;
-            chosenPanel.Controls.Clear();
+            //while (chosenPanel.Controls.Count > 0)
+            //    chosenPanel.Controls[0].Dispose();
+            ctrlDispose(chosenPanel.Controls);
             //showing the results of the search
             for (int i = 0; i < vids.Count; i++)
             {
                 sigRecord sr = new sigRecord();
                 sr.videoTitle = vids[i].customName;
-                string s = "";
-                for (int j = 0; j < vids[i].performers.Length; j++)
-                {
-                    s += vids[i].performers[j].customName;
-                    if (j + 1 < vids[i].performers.Length) s += ",";
-                }
-                sr.actorName = s;
-                s = "";
-                for (int j = 0; j < vids[i].genres.Length; j++)
-                {
-                    s += vids[i].genres[j].customName;
-                    if (j + 1 < vids[i].genres.Length) s += ",";
-                }
-                sr.details = s;
-                sr.email = vids[i].account.customName;
-                guPix gg = dataControl.images.Find(g => g.id == vids[i].picId);
-                if (gg != null) sr.bigPic = gg.pic;
-                else if (!currSearch.Contains(vids[i].picId))
-                    loadImgNow(vids[i].picId, null, sr, null);
+                sr.linkUp = !string.IsNullOrEmpty(vids[i].link);
+                //string s = "";
+                //for (int j = 0; j < vids[i].performers.Length; j++)
+                //{
+                //    s += vids[i].performers[j].customName;
+                //    if (j + 1 < vids[i].performers.Length) s += ",";
+                //}
+                //sr.actorName = s;
+                //s = "";
+                //for (int j = 0; j < vids[i].genres.Length; j++)
+                //{
+                //    s += vids[i].genres[j].customName;
+                //    if (j + 1 < vids[i].genres.Length) s += ",";
+                //}
+                //sr.details = s;
+                //sr.email = vids[i].account.customName;
+                //guPix gg = dataControl.images.Find(g => g.id == vids[i].picId);
+                //if (gg != null)
+                //{
+                //    sr.bigPic = gg.pics[0];
+                //    sr.Imgs = gg.pics;
+                //}
+                //else if (!currSearch.Contains(vids[i].picId))
+                    loadImgNow(vids[i].picId, null, sr);
                 
                 chosenPanel.Controls.Add(sr);
+                await Task.Delay(5);
             }
             searching = false;
         }
@@ -513,54 +635,78 @@ namespace videoApp
             specLabel.Text = word;
             if (r != null)
             {
-                guPix gp = dataControl.images.Find(g => g.id == r.picId);
-                if (gp != null)
-                {
-                    specPhoto.Image = gp.pic;
-                    if (r.picId != dataControl.defNm) deleteSpecButton.Visible = true;
-                    else deleteSpecButton.Visible = false;
-                }
-                else if (!currSearch.Contains(r.picId))
+                //guPix gp = dataControl.images.Find(g => g.id == r.picId);
+                //if (gp != null)
+                //{
+                //    specPhoto.Image = gp.pics[0];
+                //    if (gp.pics.Length > 1)
+                //    {
+                //        leftSpecButton.Visible = rightSpecButton.Visible = true;
+                //        specImgs = gp.pics;
+                //        picNo = 0;
+                //    }
+                //    else
+                //    {
+                //        leftSpecButton.Visible = rightSpecButton.Visible = false;
+                //        specImgs = null;
+                //        picNo = 0;
+                //    }
+                //    if (r.picId != dataControl.defNm) deleteSpecButton.Visible = true;
+                //    else deleteSpecButton.Visible = false;
+                //}
+                //else if (!currSearch.Contains(r.picId))
                     loadImgNow(r.picId, null, null, null, specPhoto);
+                
             }
+            else MessageBox.Show(string.Format("could not find:{0} with name {1} and type of {2}", sType, word,curSpec.ToString()));
             wordSearch(st, word);
         }
         //show single video's information/metadata
-        public void showSingleVid(string text, Image img)
+        public void showSingleVid(string text, Image []imgs)
         {
             switchPanel(singleVidPanel);
-            singleVidActorFlow.Controls.Clear();
-            singleVidGenreFlow.Controls.Clear();
-            singleVidPic.Image = img;
+            //while (singleVidActorFlow.Controls.Count > 0)
+            //    singleVidActorFlow.Controls[0].Dispose();
+            //while (singleVidGenreFlow.Controls.Count > 0)
+            //    singleVidGenreFlow.Controls[0].Dispose();
+            ctrlDispose(singleVidActorFlow.Controls);
+            ctrlDispose(singleVidGenreFlow.Controls);
+            singleVidPic.Image = imgs[0];
+            specImgs = imgs;
+            picNo = 0;
             foreach (customVideo v in dataControl.info.videos)
             {
                 if (v.customName == text)
                 {
                     currentVideo = v;
                     singleVidName.Text = v.customName;
+                    if (!string.IsNullOrEmpty(v.link)) singleVidName.ForeColor = Color.Lime;
+                    else singleVidName.ForeColor = Color.White;
                     for (int i = 0; i < v.performers.Length; i++)
                     {
                         LinkLabel ll;
-                        if (i > 0)
-                        {
+                        //if (i > 0)
+                        //{
                             ll = new LinkLabel();
                             ll.LinkClicked += new LinkLabelLinkClickedEventHandler(singleVidActor_LinkClicked);
                             ll.AutoSize = true;
-                        }
-                        else ll = singleVidActor;
+                            ll.Font = linkFont;
+                        //}
+                        //else ll = singleVidActor;
                         singleVidActorFlow.Controls.Add(ll);
                         ll.Text = v.performers[i].customName;
                     }
                     for (int i = 0; i < v.genres.Length; i++)
                     {
                         LinkLabel ll;
-                        if (i > 0)
-                        {
+                        //if (i > 0)
+                        //{
                             ll = new LinkLabel();
                             ll.LinkClicked += new LinkLabelLinkClickedEventHandler(singleVidGenre_LinkClicked);
                             ll.AutoSize = true;
-                        }
-                        else ll = singleVidGenre;
+                            ll.Font = linkFont;
+                        //}
+                        //else ll = singleVidGenre;
                         singleVidGenreFlow.Controls.Add(ll);
                         ll.Text = v.genres[i].customName;
                     }
@@ -569,7 +715,31 @@ namespace videoApp
                 }
             }
         }
+        int picNo = 0;
+        private void directSpecButton_Click(object sender, EventArgs e)
+        {
+            if (specImgs == null) return;
+            int i;
+            if (((Button)sender).Name.StartsWith("right")) i = 1;
+            else i = -1;
+            picNo += i;
+            if (picNo < 0) picNo = specImgs.Length - 1;
+            else if (picNo >= specImgs.Length) picNo = 0;
+            specPhoto.Image = specImgs[picNo];
+        }
 
+
+        private void directSingle_Click(object sender, EventArgs e)
+        {
+            if (specImgs == null) return;
+            int i;
+            if (((Button)sender).Name.StartsWith("right")) i = 1;
+            else i = -1;
+            picNo += i;
+            if (picNo < 0) picNo = specImgs.Length - 1;
+            else if (picNo >= specImgs.Length) picNo = 0;
+            singleVidPic.Image = specImgs[picNo];
+        }
         private void singleVidActor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) =>
             showSpecDetails("actor", ((LinkLabel)sender).Text);
 
@@ -581,15 +751,22 @@ namespace videoApp
         //when user clicks on the photo of specified metadata
         private void specPhoto_Click(object sender, EventArgs e)
         {
-            if (specPhoto.Dock == DockStyle.Fill)
+            //if (specPhoto.Dock == DockStyle.Fill)
+            //{
+            //    specPhoto.Dock = DockStyle.None;
+            //    specPhoto.Location = new Point(specLabel.Location.X-127/*124*/, 5);
+            //    specPhoto.Anchor = AnchorStyles.Top;
+            //}
+            //else specPhoto.Dock = DockStyle.Fill;
+            if (specPicHolder.Dock == DockStyle.Fill)
             {
-                specPhoto.Dock = DockStyle.None;
-                specPhoto.Location = new Point(specLabel.Location.X-127/*124*/, 5);
-                specPhoto.Anchor = AnchorStyles.Top;
+                specPicHolder.Dock = DockStyle.None;
+                specPicHolder.Location = new Point(specLabel.Location.X - 127/*124*/, 5);
+                specPicHolder.Anchor = AnchorStyles.Top;
             }
-            else specPhoto.Dock = DockStyle.Fill;
+            else specPicHolder.Dock = DockStyle.Fill;
         }
-        
+
         #endregion
 
         #region editData
@@ -620,7 +797,15 @@ namespace videoApp
             }
             newVidAccount.Text = cv.account.customName;
             newVidLink.Text = cv.link;
-            newVidImage.Image = singleVidPic.Image;
+            //newVidImage.Image = singleVidPic.Image;
+            //guPix gg = dataControl.images.Find(g => g.id == cv.picId);
+            //foreach (Image s in gg.pics)
+            //{
+            //    newVidPic nvp = new newVidPic();
+            //    nvp.bigPic = s;
+            //    newVidPicsHolder.Controls.Add(nvp);
+            //}
+            loadImgNow(cv.picId);
         }
         //when you click on save, the save button method then forwards the customVideo data to this method
         private void updateVideo(customVideo cv)
@@ -633,13 +818,15 @@ namespace videoApp
                     c.genres = cv.genres;
                     c.account = cv.account;
                     c.link = cv.link;
-                    guPix gp = new guPix() {id = c.picId, pic = newVidImage.Image };
+                    guPix gp = new guPix() { id = c.picId, pics = new Image[newVidPicsHolder.Controls.Count] };
+                    for (int i = 0; i < gp.pics.Length; i++)
+                        gp.pics[i] = ((newVidPic)newVidPicsHolder.Controls[i]).bigPic;
                     //gp.id = c.picId;
                     dataControl.saveInfo(gp);
-                    dataControl.images.Remove(dataControl.images.Find(x => x.id == gp.id));
-                    dataControl.images.Add(gp);
+                    //dataControl.images.Remove(dataControl.images.Find(x => x.id == gp.id));
+                    //dataControl.images.Add(gp);
                     currentVideo = cv;// null;
-                    showSingleVid(cv.customName, gp.pic);
+                    showSingleVid(cv.customName, gp.pics/*[0]*/);
                     wipeNewData();
                     break;
                 }
@@ -657,7 +844,7 @@ namespace videoApp
         {
             conformDeletePanel.Visible = false;
             customVideo v = dataControl.info.videos.Find(x => x.customName == singleVidName.Text);
-            dataControl.images.Remove(dataControl.images.Find(x => x.id == v.picId));
+            //dataControl.images.Remove(dataControl.images.Find(x => x.id == v.picId));
             dataControl.info.videos.Remove(v);
             dataControl.saveInfo(null);
             dataControl.deleteGuPix(v.picId);
@@ -693,7 +880,7 @@ namespace videoApp
                     break;
             }
             //removes image for spec data
-            dataControl.images.Remove(dataControl.images.Find(x => x.id == r.picId));
+            //dataControl.images.Remove(dataControl.images.Find(x => x.id == r.picId));
             //replaces the metadata that matches the spec info, and changes it to 'Other'
             foreach (customVideo cr in dataControl.info.videos)
                 switch (curSpec)
@@ -719,14 +906,6 @@ namespace videoApp
             curSpec = searchType.none;
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            switchPanel(allContentPanel);
-            allContentPanel.Controls.Clear();
-            newPass np = new newPass();
-            allContentPanel.Controls.Add(np);
-            //np.Dock = DockStyle.Fill;
-        }
         #endregion
 
         #region videoView
@@ -735,18 +914,89 @@ namespace videoApp
             //webBrowser1.Navigate("https://drive.google.com/file/d/1eg6SxCq8JTbQuaX-SnxzpaCLyXodlMcH/view?usp=sharing");
             if (currentVideo.link != null && currentVideo.link != "")
             {
-                panelHome.Visible = false;
-                browserPanel.Visible = true;
-                webBrowser1.Navigate(currentVideo.link);
-
+                DialogResult dr = MessageBox.Show("Ready to watch?", "Opening Movie", MessageBoxButtons.YesNo);
+                if (dr == DialogResult.No) return;
+                if (currentVideo.link.StartsWith("https"))
+                {
+                    panelHome.Visible = false;
+                    browserPanel.Visible = true;
+                    wb = new WebBrowser();
+                    browserPanel.Controls.Add(wb);
+                    wb.Dock = DockStyle.Fill;
+                    wb.Navigate(currentVideo.link);
+                }
+                else
+                {
+                    panelHome.Visible = false;
+                    wmp = new AxWMPLib.AxWindowsMediaPlayer();
+                    wmp.PlayStateChange +=
+                        new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wmpPlayStateChange);
+                    wmp.MediaError +=
+                        new AxWMPLib._WMPOCXEvents_MediaErrorEventHandler(wmpMediaError);
+                    Controls.Add(wmp);
+                    wmp.URL = currentVideo.link;
+                    //none just for video, invisible to show nothing, mini for basic controls and full for everything
+                    wmp.uiMode = "full";
+                    wmp.Dock = DockStyle.Fill;
+                    wmp.Ctlcontrols.play();
+                }
             }
             else MessageBox.Show("no video link available :(");
 
         }
-        private void leaveBrowserButton_Click(object sender, EventArgs e){
-            webBrowser1.Stop();
+        private void wmpPlayStateChange(object o, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e/*,int NewState*/)
+        {
+            //if ((WMPLib.WMPPlayState)NewState == WMPLib.WMPPlayState.wmppsStopped)
+            if (wmp.playState == WMPLib.WMPPlayState.wmppsStopped)
+            {
+                wmp.Dispose();
+                panelHome.Visible = true;
+            }
+        }
+        private void wmpMediaError(object o, AxWMPLib._WMPOCXEvents_MediaErrorEvent e/*object pMediaObject*/)
+        {
+            MessageBox.Show("Cannot play media file.");
+            wmp.Dispose();
+            panelHome.Visible = true;
+        }
+
+        private void leaveBrowserButton_Click(object sender, EventArgs e)
+        {
+            wb.Stop();
+            wb.Dispose();
             browserPanel.Visible = false;
             panelHome.Visible = true;
+        }
+        #endregion
+
+        #region misc
+
+        private void newPass_Click(object sender, EventArgs e)
+        {
+            switchPanel(allContentPanel);
+            
+            newPass np = new newPass();
+            allContentPanel.Controls.Add(np);
+            //np.Dock = DockStyle.Fill;
+        }
+
+        private void saveSpecImgButton_Click(object sender, EventArgs e) =>
+            saveImage(specPhoto.Image, specLabel.Text);
+        
+        private void saveVidImgButton_Click(object sender, EventArgs e) =>
+            saveImage(singleVidPic.Image, singleVidName.Text);
+
+        void saveImage(Image img, string nm)
+        {
+            if (specImgs != null) nm += " " + picNo;
+            nm += ".png";
+            if (img == null)
+            {
+                MessageBox.Show("No image to save right now");
+                return;
+            }
+            img.Save(nm, System.Drawing.Imaging.ImageFormat.Png);
+            MessageBox.Show("Saved image: " + nm);
         }
         #endregion
     }

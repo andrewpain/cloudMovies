@@ -17,3 +17,9 @@ C:\Users\admin\source\repos\videoApp\videoApp\bin\Debug\videoApp.exe.manifest
 C:\Users\admin\source\repos\videoApp\videoApp\bin\Debug\videoApp.application
 C:\Users\admin\source\repos\videoApp\videoApp\obj\Debug\videoApp.exe.manifest
 C:\Users\admin\source\repos\videoApp\videoApp\obj\Debug\videoApp.application
+C:\Users\admin\source\repos\videoApp\videoApp\obj\Debug\videoApp.newVidPic.resources
+C:\Users\admin\source\repos\videoApp\videoApp\bin\Debug\Interop.WMPLib.dll
+C:\Users\admin\source\repos\videoApp\videoApp\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\admin\source\repos\videoApp\videoApp\obj\Debug\Interop.WMPLib.dll
+C:\Users\admin\source\repos\videoApp\videoApp\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\admin\source\repos\videoApp\videoApp\obj\Debug\videoApp.csproj.ResolveComReference.cache
