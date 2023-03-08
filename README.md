@@ -14,14 +14,10 @@ You may want to change it to something more difficult.
 
 From there you will get:
 
-SEARCH BAR (special)
+SEARCH BAR
 
 You may search through all the records of videos that exist. Initiate the search by
 hitting 'Enter'
-
-when you click on the Actors/Genres/Accounts with text in the search bar, it will arange the results in order based on the letter(s) in the search bar
-For example, if you type 'h' in the search bar then click on Actors, then it will show all actors, with those starting with 'h' at the top of the results
-Or, if you type 'ro' in the search bar then click on Genres, then it will show all genres, with those starting with 'ro' at the top of the results
 
 NEW
 
@@ -32,13 +28,13 @@ VIDEOS
 
 This displays all the movies that currently exists in the database. When you click
 a video, you would gett all the details about it.
-If the title of the video is in green, this indicates that there is a link available to view the video. 
 You may click on a video, which would open another panel showing the details of
 that specific video. You may either: 
-Save the current photo being displayed
 Edit the details of the video, 
-View the video through a link / file path to the video
+View the video through a link, 
 or Detete the video.
+If you check the "With Links" box, you will only get videos that have a link available.
+This is indicated by the name of the video being in green
 
 ACTORS
 
@@ -48,6 +44,10 @@ actor is deleted, the record of the actor remains. But the actor remains. Also,
 *When you click on one, you will get all the movies that contain that Actor. Here, 
 you would be able to delete the record of that actor with the delete button in the 
 upper right had corner.
+*If you type the a letter, or name into the search bar, then click on the ACTORS tab,
+you will get the list of actors in order of the letter(s) you entered
+*if yoo check the "Lowest count" then click on the ACTOR tab, you will get the actors
+ordered by the amount of videos they are featured in
 (the same goes for accounts and genres)*
 
 GENRES
